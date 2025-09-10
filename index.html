@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi-Aktivator Pixel TikTok</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #000000;
+            --secondary-color: #69C9D0;
+            --accent-color: #FF0050;
+            --light-bg: #f8f9fa;
+            --dark-bg: #212529;
+            --success-color: #28a745;
+            --warning-color: #ffc107;
+            --danger-color: #dc3545;
+        }
+        
+        body {
+            background-color: var(--light-bg);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #333;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, #2d2d2d 100%);
+            color: white;
+            padding: 25px 0;
+            margin-bottom: 25px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100" opacity="0.05"><path d="M25,25 L75,25 L75,75 L25,75 Z" stroke="white" fill="none" stroke-width="2"/></svg>');
+            background-size: 50px;
+            opacity: 0.1;
+        }
+        
+        .logo {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .logo span {
+            color: var(--secondary-color);
+            margin: 0 5px;
+        }
+        
+        .logo i {
+            color: var(--accent-color);
+            margin-right: 10px;
+            font-size: 36px;
+        }
+        
+        .card {
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            border: none;
+            transition: transform 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .card-header {
+            background: linear-gradient(to right, #f8f9fa, #e9ecef);
+            border-bottom: 1px solid #dee2e6;
+            font-weight: 600;
+        }
+        
+        .step {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            padding: 12px;
+            background-color: #f0f8ff;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .step:hover {
+            background-color: #e1f1ff;
+        }
+        
+        .step-number {
+            width: 36px;
+            height: 36px;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            flex-shrink: 0;
+            font-weight: bold;
+        }
+        
+        .progress {
+            height: 10px;
+            margin: 20px 0;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .status-badge {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            min-width: 90px;
+            text-align: center;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(to right, var(--primary-color), #333);
+            border: none;
+            font-weight: 600;
+            padding: 10px 20px;
+        }
+        
+        .btn-primary:hover {
+            background: linear-gradient(to right, #333, #555);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+        
+        .btn-success {
+            background: linear-gradient(to right, var(--success-color), #20c997);
+            border: none;
+        }
+        
+        .btn-danger {
+            background: linear-gradient(to right, var(--danger-color), #e35d6a);
+            border: none;
+        }
+        
+        .success-check {
+            color: var(--success-color);
+            font-size: 80px;
+            margin-bottom: 20px;
+            animation: pulse 1.5s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        .pixel-config {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border-left: 4px solid var(--secondary-color);
+        }
+        
+        .history-item {
+            border-left: 4px solid var(--secondary-color);
+            margin-bottom: 10px;
+            padding: 12px;
+            border-radius: 4px;
+            background-color: #f8f9fa;
+            transition: all 0.3s ease;
+        }
+        
+        .history-item:hover {
+            background-color: #e9ecef;
+            transform: translateX(5px);
+        }
+        
+        .pixel-badge {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: bold;
+        }
+        
+        .form-control:focus {
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 0.25rem rgba(105, 201, 208, 0.25);
+        }
+        
+        .multi-pixel-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .pixel-card {
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+            border-top: 4px solid var(--secondary-color);
+        }
+        
+        .stats-box {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        
+        .stat {
+            text-align: center;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.05);
+            flex: 1;
+            margin: 0 10px;
+        }
+        
+        .stat-number {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        
+        .stat-title {
+            font-size: 14px;
+            color: #6c757d;
+        }
+        
+        .quick-action {
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 20px;
+            text-align: center;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .quick-action:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .action-icon {
+            font-size: 32px;
+            color: var(--secondary-color);
+            margin-bottom: 10px;
+        }
+        
+        .batch-mode {
+            background-color: #e6f7ff;
+            border-left: 4px solid #1890ff;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+            <div class="logo">
+                <i class="fab fa-tiktok"></i>
+                TikTok <span>Multi</span> Pixel Activator
+            </div>
+            <p class="lead">Aktifkan beberapa Pixel TikTok sekaligus untuk event Purchase dan Register</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="stats-box">
+                    <div class="stat">
+                        <div class="stat-number" id="totalPixels">0</div>
+                        <div class="stat-title">Total Pixel</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number" id="activePixels">0</div>
+                        <div class="stat-title">Pixel Aktif</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number" id="totalEvents">0</div>
+                        <div class="stat-title">Event Terkirim</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number" id="successRate">100%</div>
+                        <div class="stat-title">Tingkat Keberhasilan</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fas fa-cogs me-2"></i>Konfigurasi Pixel
+                    </div>
+                    <div class="card-body">
+                        <div class="pixel-config">
+                            <div class="mb-3">
+                                <label for="pixelIds" class="form-label">Pixel IDs (Pisahkan dengan koma)</label>
+                                <textarea class="form-control" id="pixelIds" rows="3" placeholder="CM3C2F77SJN5G97J9UR0, A1B2C3D4E5F6G7H8I9J0, XYZ123456789"></textarea>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="activationLinks" class="form-label">Link Aktivasi (Satu per baris)</label>
+                                <textarea class="form-control" id="activationLinks" rows="3" placeholder="https://example.com/activate?id=12345&#10;https://example.com/activate?id=67890"></textarea>
+                            </div>
+                            
+                            <div class="form-check form-switch mb-3">
+                                <input class="form-check-input" type="checkbox" id="autoDetect" checked>
+                                <label class="form-check-label" for="autoDetect">Auto-detect Pixel ID dari Link</label>
+                            </div>
+                            
+                            <div class="form-check form-switch mb-3">
+                                <input class="form-check-input" type="checkbox" id="parallelProcessing" checked>
+                                <label class="form-check-label" for="parallelProcessing">Proses Paralel (Lebih Cepat)</label>
+                            </div>
+                        </div>
+                        
+                        <div class="progress">
+                            <div id="progressBar" class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        
+                        <div id="activationStatus" class="alert alert-info">
+                            <strong><i class="fas fa-info-circle me-2"></i>Status:</strong> <span id="statusText">Menunggu aktivasi...</span>
+                        </div>
+                        
+                        <div class="text-center">
+                            <button id="activateButton" class="btn btn-primary btn-lg">
+                                <i class="fas fa-bolt me-2"></i>Aktifkan Semua Pixel
+                            </button>
+                            <button id="resetButton" class="btn btn-outline-secondary btn-lg ms-2">
+                                <i class="fas fa-redo me-2"></i>Reset
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="batch-mode">
+                    <h5><i class="fas fa-layer-group me-2"></i>Mode Batch</h5>
+                    <p>Unggah file teks berisi Pixel IDs atau Link Aktivasi (satu per baris)</p>
+                    <div class="input-group mb-3">
+                        <input type="file" class="form-control" id="batchFile" accept=".txt,.csv">
+                        <button class="btn btn-outline-primary" type="button" id="uploadBtn">Unggah</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fas fa-tachometer-alt me-2"></i>Dashboard Aktivasi
+                    </div>
+                    <div class="card-body">
+                        <div id="successMessage" class="alert alert-success text-center d-none">
+                            <div class="success-check"><i class="fas fa-check-circle"></i></div>
+                            <h4>Aktivasi Berhasil!</h4>
+                            <p>Event Register dan Purchase telah berhasil diaktifkan pada semua Pixel.</p>
+                        </div>
+                        
+                        <h5>Pixel yang Diaktifkan</h5>
+                        <div id="pixelGrid" class="multi-pixel-grid">
+                            <div class="text-center p-4" id="noPixelsMessage">
+                                <i class="fas fa-inbox fa-3x mb-3 text-muted"></i>
+                                <p class="text-muted">Belum ada pixel yang ditambahkan. Masukkan Pixel IDs atau Link Aktivasi.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="quick-action mt-4" id="quickTest">
+                            <div class="action-icon">
+                                <i class="fas fa-vial"></i>
+                            </div>
+                            <h5>Test Cepat</h5>
+                            <p class="text-muted">Klik untuk menguji dengan Pixel ID contoh</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row mt-4">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fas fa-history me-2"></i>Riwayat Aktivasi
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Waktu</th>
+                                        <th>Pixel ID</th>
+                                        <th>Event</th>
+                                        <th>Nilai</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="historyTable">
+                                    <!-- Riwayat akan diisi secara dinamis -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const activateButton = document.getElementById('activateButton');
+            const resetButton = document.getElementById('resetButton');
+            const pixelIdsInput = document.getElementById('pixelIds');
+            const activationLinksInput = document.getElementById('activationLinks');
+            const progressBar = document.getElementById('progressBar');
+            const statusText = document.getElementById('statusText');
+            const successMessage = document.getElementById('successMessage');
+            const historyTable = document.getElementById('historyTable');
+            const pixelGrid = document.getElementById('pixelGrid');
+            const noPixelsMessage = document.getElementById('noPixelsMessage');
+            const quickTest = document.getElementById('quickTest');
+            const uploadBtn = document.getElementById('uploadBtn');
+            const batchFile = document.getElementById('batchFile');
+            
+            // Stats elements
+            const totalPixelsElement = document.getElementById('totalPixels');
+            const activePixelsElement = document.getElementById('activePixels');
+            const totalEventsElement = document.getElementById('totalEvents');
+            const successRateElement = document.getElementById('successRate');
+            
+            let pixels = [];
+            let totalEvents = 0;
+            let successfulEvents = 0;
+            
+            activateButton.addEventListener('click', startActivation);
+            resetButton.addEventListener('click', resetForm);
+            quickTest.addEventListener('click', addSamplePixels);
+            uploadBtn.addEventListener('click', handleFileUpload);
+            
+            function startActivation() {
+                const pixelIds = pixelIdsInput.value.trim();
+                const activationLinks = activationLinksInput.value.trim();
+                
+                // Ekstrak pixel dari input
+                extractPixelsFromInputs();
+                
+                // Validasi input
+                if (pixels.length === 0) {
+                    showStatus('Masukkan Pixel IDs atau Link Aktivasi', 'danger');
+                    return;
+                }
+                
+                // Nonaktifkan tombol selama proses
+                activateButton.disabled = true;
+                activateButton.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Memproses...';
+                
+                // Mulai proses aktivasi
+                showStatus(`Memulai proses aktivasi untuk ${pixels.length} pixel...`, 'info');
+                updateProgress(10);
+                
+                // Proses aktivasi paralel
+                const parallelProcessing = document.getElementById('parallelProcessing').checked;
+                
+                if (parallelProcessing) {
+                    // Proses semua pixel secara paralel
+                    processPixelsInParallel();
+                } else {
+                    // Proses pixel secara serial
+                    processPixelsInSequence();
+                }
+            }
+            
+            function processPixelsInParallel() {
+                const totalPixels = pixels.length;
+                let processedPixels = 0;
+                
+                pixels.forEach(pixel => {
+                    activatePixel(pixel).then(() => {
+                        processedPixels++;
+                        const progress = 10 + (processedPixels / totalPixels) * 90;
+                        updateProgress(progress);
+                        
+                        if (processedPixels === totalPixels) {
+                            completeActivation();
+                        }
+                    });
+                });
+            }
+            
+            function processPixelsInSequence() {
+                let index = 0;
+                const processNextPixel = () => {
+                    if (index < pixels.length) {
+                        activatePixel(pixels[index]).then(() => {
+                            index++;
+                            const progress = 10 + (index / pixels.length) * 90;
+                            updateProgress(progress);
+                            processNextPixel();
+                        });
+                    } else {
+                        completeActivation();
+                    }
+                };
+                
+                processNextPixel();
+            }
+            
+            async function activatePixel(pixel) {
+                try {
+                    // Load TikTok Pixel
+                    await loadTikTokPixel(pixel.id);
+                    
+                    // Trigger event Register
+                    await triggerRegisterEvent(pixel.id);
+                    
+                    // Trigger event Purchase
+                    const transactionId = await triggerPurchaseEvent(pixel.id);
+                    
+                    // Update UI
+                    updatePixelCard(pixel.id, 'success', transactionId);
+                    addToHistory(pixel.id, transactionId, 'success');
+                    
+                    return true;
+                } catch (error) {
+                    console.error(`Error activating pixel ${pixel.id}:`, error);
+                    updatePixelCard(pixel.id, 'error');
+                    addToHistory(pixel.id, '', 'error');
+                    return false;
+                }
+            }
+            
+            function completeActivation() {
+                updateProgress(100);
+                showStatus('Aktivasi berhasil! Semua pixel telah diproses.', 'success');
+                
+                // Tampilkan pesan sukses
+                successMessage.classList.remove('d-none');
+                
+                // Aktifkan tombol reset
+                activateButton.disabled = false;
+                activateButton.innerHTML = '<i class="fas fa-bolt me-2"></i>Aktifkan Semua Pixel';
+                
+                // Update stats
+                updateStats();
+            }
+            
+            function loadTikTokPixel(pixelId) {
+                return new Promise((resolve) => {
+                    // Hapus pixel sebelumnya jika ada
+                    if (window.ttq) {
+                        delete window.ttq;
+                    }
+                    
+                    // Buat script pixel
+                    var script = document.createElement('script');
+                    script.innerHTML = `
+                        !function (w, d, t) {
+                            w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie"],ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);ttq.instance=function(t){for(var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n]);return e},ttq.load=function(e,n){var i="https://analytics.tiktok.com/i18n/pixel/events.js";ttq._i=ttq._i||{},ttq._i[e]=[],ttq._i[e]._u=i,ttq._t=ttq._t||{},ttq._t[e]=+new Date,ttq._o=ttq._o||{},ttq._o[e]=n||{};var o=document.createElement("script");o.type="text/javascript",o.async=!0,o.src=i+"?sdkid="+e+"&lib="+t;var a=document.getElementsByTagName("script")[0];a.parentNode.insertBefore(o,a)};
+                            ttq.load('${pixelId}');
+                            ttq.page();
+                        }(window, document, 'ttq');
+                    `;
+                    document.head.appendChild(script);
+                    
+                    // Simulasikan waktu loading
+                    setTimeout(resolve, 100);
+                });
+            }
+            
+            function triggerRegisterEvent(pixelId) {
+                return new Promise((resolve) => {
+                    // Simulasi trigger event Register
+                    if (window.ttq) {
+                        try {
+                            ttq.instance(pixelId).track('Register', {
+                                content_type: 'activation',
+                                user_id: 'user_' + Math.floor(Math.random() * 1000000)
+                            });
+                            console.log(`Register event triggered for ${pixelId}`);
+                            
+                            // Update stats
+                            totalEvents++;
+                            successfulEvents++;
+                        } catch (e) {
+                            console.error('Error triggering Register event:', e);
+                            totalEvents++;
+                        }
+                    }
+                    
+                    // Simulasikan waktu processing
+                    setTimeout(resolve, 150);
+                });
+            }
+            
+            function triggerPurchaseEvent(pixelId) {
+                return new Promise((resolve) => {
+                    // Simulasi trigger event Purchase
+                    const transactionId = 'TRX-' + Math.floor(Math.random() * 1000000000);
+                    
+                    if (window.ttq) {
+                        try {
+                            ttq.instance(pixelId).track('Purchase', {
+                                content_type: 'product',
+                                quantity: 1,
+                                price: 10,
+                                currency: 'BRL',
+                                value: 10,
+                                order_id: transactionId
+                            });
+                            console.log(`Purchase event triggered for ${pixelId}`);
+                            
+                            // Update stats
+                            totalEvents++;
+                            successfulEvents++;
+                        } catch (e) {
+                            console.error('Error triggering Purchase event:', e);
+                            totalEvents++;
+                        }
+                    }
+                    
+                    // Simulasikan waktu processing
+                    setTimeout(() => resolve(transactionId), 150);
+                });
+            }
+            
+            function extractPixelsFromInputs() {
+                pixels = [];
+                
+                // Ekstrak dari Pixel IDs
+                const pixelIds = pixelIdsInput.value.trim();
+                if (pixelIds) {
+                    const ids = pixelIds.split(',').map(id => id.trim()).filter(id => id !== '');
+                    ids.forEach(id => {
+                        if (isValidPixelId(id)) {
+                            pixels.push({ id, source: 'direct' });
+                        }
+                    });
+                }
+                
+                // Ekstrak dari Link Aktivasi
+                const activationLinks = activationLinksInput.value.trim();
+                if (activationLinks) {
+                    const links = activationLinks.split('\n').map(link => link.trim()).filter(link => link !== '');
+                    const autoDetect = document.getElementById('autoDetect').checked;
+                    
+                    links.forEach(link => {
+                        if (autoDetect) {
+                            // Coba ekstrak Pixel ID dari link
+                            const extractedId = extractPixelIdFromLink(link);
+                            if (extractedId && isValidPixelId(extractedId)) {
+                                pixels.push({ id: extractedId, source: 'link', url: link });
+                            }
+                        } else {
+                            // Gunakan link sebagai ID (untuk demo)
+                            pixels.push({ id: link, source: 'link', url: link });
+                        }
+                    });
+                }
+                
+                // Update UI
+                updatePixelGrid();
+                updateStats();
+            }
+            
+            function extractPixelIdFromLink(link) {
+                try {
+                    const url = new URL(link);
+                    const params = new URLSearchParams(url.search);
+                    return params.get('pixelId') || params.get('id') || url.pathname.split('/').pop() || 'PXL' + Math.floor(Math.random() * 1000000);
+                } catch (e) {
+                    return 'PXL' + Math.floor(Math.random() * 1000000);
+                }
+            }
+            
+            function updatePixelGrid() {
+                if (pixels.length === 0) {
+                    noPixelsMessage.style.display = 'block';
+                    pixelGrid.innerHTML = '';
+                    return;
+                }
+                
+                noPixelsMessage.style.display = 'none';
+                pixelGrid.innerHTML = '';
+                
+                pixels.forEach(pixel => {
+                    const pixelCard = document.createElement('div');
+                    pixelCard.className = 'pixel-card';
+                    pixelCard.innerHTML = `
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <strong>${pixel.id}</strong>
+                            <span class="pixel-badge">${pixel.source === 'direct' ? 'Direct' : 'From Link'}</span>
+                        </div>
+                        <div class="status" id="status-${pixel.id}">
+                            <span class="badge bg-secondary">Menunggu</span>
+                        </div>
+                        <div class="mt-2" id="details-${pixel.id}"></div>
+                    `;
+                    pixelGrid.appendChild(pixelCard);
+                });
+            }
+            
+            function updatePixelCard(pixelId, status, transactionId = '') {
+                const statusElement = document.getElementById(`status-${pixelId}`);
+                const detailsElement = document.getElementById(`details-${pixelId}`);
+                
+                if (statusElement) {
+                    if (status === 'success') {
+                        statusElement.innerHTML = '<span class="badge bg-success">Berhasil</span>';
+                        detailsElement.innerHTML = `
+                            <div class="mt-2">
+                                <small class="text-muted">Transaction ID: ${transactionId}</small><br>
+                                <small class="text-muted">Nilai: 10 BRL</small>
+                            </div>
+                        `;
+                    } else if (status === 'error') {
+                        statusElement.innerHTML = '<span class="badge bg-danger">Gagal</span>';
+                    }
+                }
+            }
+            
+            function updateProgress(percent) {
+                progressBar.style.width = percent + '%';
+                progressBar.setAttribute('aria-valuenow', percent);
+            }
+            
+            function showStatus(message, type) {
+                statusText.textContent = message;
+                const statusElement = document.getElementById('activationStatus');
+                
+                // Hapus semua kelas alert
+                statusElement.classList.remove('alert-info', 'alert-success', 'alert-danger');
+                
+                // Tambahkan kelas sesuai type
+                if (type === 'info') statusElement.classList.add('alert-info');
+                else if (type === 'success') statusElement.classList.add('alert-success');
+                else if (type === 'danger') statusElement.classList.add('alert-danger');
+            }
+            
+            function resetForm() {
+                // Reset form
+                pixelIdsInput.value = '';
+                activationLinksInput.value = '';
+                pixels = [];
+                updateProgress(0);
+                
+                // Reset status
+                showStatus('Menunggu aktivasi...', 'info');
+                
+                // Sembunyikan pesan sukses
+                successMessage.classList.add('d-none');
+                
+                // Reset pixel grid
+                updatePixelGrid();
+                
+                // Aktifkan tombol
+                activateButton.disabled = false;
+                activateButton.innerHTML = '<i class="fas fa-bolt me-2"></i>Aktifkan Semua Pixel';
+                
+                // Update stats
+                updateStats();
+            }
+            
+            function addToHistory(pixelId, transactionId, status) {
+                const now = new Date();
+                const timeString = now.toLocaleTimeString();
+                const dateString = now.toLocaleDateString();
+                
+                const newRow = document.createElement('tr');
+                
+                if (status === 'success') {
+                    newRow.innerHTML = `
+                        <td>${dateString} ${timeString}</td>
+                        <td>${pixelId}</td>
+                        <td>Register, Purchase</td>
+                        <td>10 BRL</td>
+                        <td><span class="badge bg-success">Berhasil</span></td>
+                    `;
+                } else {
+                    newRow.innerHTML = `
+                        <td>${dateString} ${timeString}</td>
+                        <td>${pixelId}</td>
+                        <td>Register, Purchase</td>
+                        <td>N/A</td>
+                        <td><span class="badge bg-danger">Gagal</span></td>
+                    `;
+                }
+                
+                historyTable.prepend(newRow);
+            }
+            
+            function isValidPixelId(pixelId) {
+                // Validasi sederhana untuk Pixel ID
+                return pixelId.length >= 5;
+            }
+            
+            function addSamplePixels() {
+                pixelIdsInput.value = 'CM3C2F77SJN5G97J9UR0, A1B2C3D4E5F6G7H8I9J0, XYZ123456789';
+                activationLinksInput.value = 'https://example.com/activate?id=12345\nhttps://example.com/activate?id=67890';
+                
+                extractPixelsFromInputs();
+                showStatus('Pixel contoh telah ditambahkan. Klik "Aktifkan Semua Pixel" untuk memulai.', 'info');
+            }
+            
+            function handleFileUpload() {
+                const file = batchFile.files[0];
+                if (!file) return;
+                
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const content = e.target.result;
+                    processBatchFile(content);
+                };
+                reader.readAsText(file);
+            }
+            
+            function processBatchFile(content) {
+                const lines = content.split('\n').map(line => line.trim()).filter(line => line !== '');
+                
+                let pixelIds = [];
+                let activationLinks = [];
+                
+                lines.forEach(line => {
+                    if (line.includes('http')) {
+                        activationLinks.push(line);
+                    } else if (line.length >= 5) {
+                        pixelIds.push(line);
+                    }
+                });
+                
+                pixelIdsInput.value = pixelIds.join(', ');
+                activationLinksInput.value = activationLinks.join('\n');
+                
+                extractPixelsFromInputs();
+                showStatus(`File diproses: ${pixelIds.length} Pixel IDs, ${activationLinks.length} Link ditemukan.`, 'info');
+            }
+            
+            function updateStats() {
+                totalPixelsElement.textContent = pixels.length;
+                activePixelsElement.textContent = pixels.filter(p => {
+                    const statusElement = document.getElementById(`status-${p.id}`);
+                    return statusElement && statusElement.textContent.includes('Berhasil');
+                }).length;
+                
+                totalEventsElement.textContent = totalEvents;
+                
+                const successRate = totalEvents > 0 ? Math.round((successfulEvents / totalEvents) * 100) : 100;
+                successRateElement.textContent = `${successRate}%`;
+            }
+        });
+    </script>
+</body>
+</html>
